@@ -11,6 +11,12 @@
 * [v6.2.2](https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V6.md#6.2.2)
   - also tagged as `latest`
 
+## Using the image
+
+```bash
+$ docker pull evanlucas/node_debug:latest
+```
+
 ## Why?
 
 Sometimes debugging during development isn't enough. Enter `llnode`.
