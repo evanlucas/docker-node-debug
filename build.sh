@@ -55,7 +55,7 @@ main() {
   if [[ $? -ne 0 ]]; then
     abort "failed to build image"
   fi
-  log build success
+  log build success "($TAG:$OURS)"
 
   if [[ "$PUBLISH" -eq 1 ]]; then
     log push "$TAG:$OURS"

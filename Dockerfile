@@ -2,7 +2,10 @@ FROM buildpack-deps:jessie-curl
 
 MAINTAINER Evan Lucas
 
-RUN apt-get update \
+RUN wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | apt-key add - \
+  && echo "deb http://apt.llvm.org/jessie/ llvm-toolchain-jessie-3.7 main" | tee -a /etc/apt/sources.list \
+  && echo "deb-src http://apt.llvm.org/jessie/ llvm-toolchain-jessie-3.7 main" | tee -a /etc/apt/sources.list \
+  && apt-get update \
   && apt-get install -y --no-install-recommends \
     binfmt-support \
     gcc \
@@ -13,6 +16,8 @@ RUN apt-get update \
     libjsoncpp0 \
     libpython2.7 \
     libtinfo-dev \
+    lldb-3.7 \
+    lldb-3.7-dev \
     locales \
     make \
     python \
@@ -21,9 +26,10 @@ RUN apt-get update \
     xz-utils \
   && apt-get clean \
   && apt-get autoremove -y \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+  && for f in $(find /usr/bin -name '*-3.7'); do ln -s $f `echo $f | sed s/-3.7//`; done
 
-ENV NODE_VERSION 6.2.2
+ENV NODE_VERSION 6.3.0
 
 # Clone and compile a debug build
 RUN mkdir -p /tmp/build \
@@ -41,22 +47,14 @@ RUN mkdir -p /tmp/build \
   && cd / \
   && rm -rf /tmp/build
 
-COPY deb /packages
-COPY install_lldb.sh /install_lldb.sh
-RUN /install_lldb.sh
-
-RUN update-alternatives \
-      --install /usr/bin/lldb    lldb    /usr/bin/lldb-3.8 50 \
-      --slave   /usr/bin/lldb-server lldb-server /usr/bin/lldb-server-3.8
-
 RUN mkdir -p /tmp/build \
-  && cd /tmp/build \
-  && git clone git://github.com/indutny/llnode \
-  && cd llnode \
-  && git clone https://chromium.googlesource.com/external/gyp.git tools/gyp \
-  && ./gyp_llnode -Dlldb_dir=/usr/lib/llvm-3.8/ \
-  && make -C out/ \
-  && make install-linux
+    && cd /tmp/build \
+    && git clone git://github.com/indutny/llnode \
+    && cd llnode \
+    && git clone https://chromium.googlesource.com/external/gyp.git tools/gyp \
+    && ./gyp_llnode -Dlldb_dir=/usr/lib/llvm-3.7/ \
+    && make -C out/ \
+    && make install-linux
 
 RUN mkdir -p /opt/examples
 WORKDIR /opt/examples

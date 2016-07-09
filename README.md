@@ -1,15 +1,16 @@
 # Node.js v6.x Debug builds with the following debugging tools:
 
 * [`lldb`][]
-  - v3.8
+  - v3.7
 * [`llnode`][]
 * [`Node.js`][]
   - *Debug build*
 
 ## Versions
 
-* [v6.2.2](https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V6.md#6.2.2)
+* [v6.3.0](https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V6.md#6.3.0)
   - also tagged as `latest`
+* [v6.2.2](https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V6.md#6.2.2)
 
 ## Using the image
 
@@ -30,14 +31,9 @@ $ ./build.sh
 ## Example
 
 ```bash
-$ docker run -it --name node_debug_test evanlucas/node_debug:latest bash
-$ cd /opt/examples/
-```
-
-Then, run the file with lldb:
-
-```bash
-$ lldb -- node example.js
+$ docker run --rm -it --security-opt seccomp:unconfined -p "10000:10000" \
+  evanlucas/node_debug:latest \
+  lldb -- node example.js
 ```
 
 When the `(lldb)` prompt appears, type:
@@ -64,7 +60,6 @@ Process 3832 launched: '/usr/local/bin/node' (x86_64)
 Now, it's time to make a request to the server. In another terminal:
 
 ```bash
-$ docker exec -it node_debug_test bash
 $ curl http://localhost:10000/
 ```
 
