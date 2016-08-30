@@ -29,7 +29,7 @@ RUN wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | apt-key add - \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
   && for f in $(find /usr/bin -name '*-3.7'); do ln -s $f `echo $f | sed s/-3.7//`; done
 
-ENV NODE_VERSION 6.3.0
+ENV NODE_VERSION 6.5.0
 
 # Clone and compile a debug build
 RUN mkdir -p /tmp/build \

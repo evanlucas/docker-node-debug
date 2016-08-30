@@ -8,8 +8,9 @@
 
 ## Versions
 
-* [v6.3.0](https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V6.md#6.3.0)
+* [v6.5.0](https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V6.md#6.5.0)
   - also tagged as `latest`
+* [v6.3.0](https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V6.md#6.3.0)
 * [v6.2.2](https://github.com/nodejs/node/blob/master/doc/changelogs/CHANGELOG_V6.md#6.2.2)
 
 ## Using the image
